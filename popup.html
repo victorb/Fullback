@@ -4,11 +4,27 @@
 	<meta charset="utf-8" />
     <title>Fullback+</title>
 <style type="text/css">
+body {
+	height: 100%;
+	width: 350px;
+}
 </style>
 </head>
 <body>
 </div>
-<div id="article"></div>
+<!-- Inställningar här-->
+<input type="checkbox" id="debugMode"/> Debug<br/>
+<input type="checkbox" id="removeTop"/> Ta bort topp<br/>
+<input type="checkbox" id="floatingTabs"/> Meny-rad följer scroll<br/>
+<input type="checkbox" id="hetaAmnenMod"/> Heta Ämnen-väljare<br/>
+<!-- TODO Fungerar ej i Chrome, lösning? -->
+<!-- <input type="checkbox" id="stopGif"/> Stanna GIF-animationer (ej Chrome)<br/> -->
+<input type="checkbox" id="fixLinks"/> Fixa utgående länkar<br/>
+<input type="checkbox" id="myPostInThread"/> Visa länk till alla mina inlägg i nuvarande tråd<br/>
+<!-- TODO  "Du måste använda fixLinks tillsammans med showImages" -->
+<input type="checkbox" id="showImages"/> Visa bilder<br/>
+<input type="checkbox" id="keyShorts"/> Aktivera tangentbords-styrning<br/>
+<input type="checkbox" id="goToTop"/> Aktivera "Gå till toppen"-länk vid inlägg<br/>
 <script src="jquery.js"></script>
 <script src="popup.js"></script>
 </body>
