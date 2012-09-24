@@ -6,7 +6,7 @@ Detta är senaste versionen av Fullback. Om du tycker om det, sprid det eller hj
 
 Introduktion
 ---------
-Fullback är ett tillägg för Google Chrome som är menat att hjälpa användarvänligheten på Flashback. En del tuffa kanter (i designen) försvinner. Om du upplever kanter på andra håll, är det din fight.
+Fullback är ett tillägg för Google Chrome som är menat att hjälpa användarvänligheten på Flashback. 
 
 TODO
 ---------
