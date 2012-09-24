@@ -1,0 +1,28 @@
+{
+  "name": "Fullback",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Fullback lägger till notifikationer, tar bort dött utrymme på Flashback och gör ditt besök mer problemfritt",
+  "browser_action": {
+    //TODO Fixa ny ikon
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      //TODO Matchen som sitter nu beror på om vi vill att skriptet ska köras på alla sidor eller bara Flashback
+      "matches": ["http://*/*"],
+      //"matches": ["https://*.flashback.org/*"],
+      "js": ["jquery.js", "content.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    //TODO Alla rättigheter är inte nödvändiga att ha, ta bort överflöd innan release
+    "http://*/*",
+    "https://*/*",
+    "tabs"
+  ]
+}
