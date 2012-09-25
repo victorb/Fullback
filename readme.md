@@ -13,3 +13,4 @@ TODO
 *Faktiskt integrera allt
 .mozilla/firefox/*profile*/gm_scripts/Fullback_V2/Fullback.user.js
 .mozilla/firefox/*profile*/gm_scripts/Flashback_Notifications/Flashback_Notifications.user.js
+*Optimera den gamla koden för Fullback då många variablar deklareras flera gånger
