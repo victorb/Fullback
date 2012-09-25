@@ -1,0 +1,12 @@
+{
+	"folders":
+	[
+		{
+			"path": "/home/victor/ChromeExtensions/Fullback",
+			"file_exclude_patterns":[
+            "*.png",
+            "fullback.sublime-workspace"
+         	]
+		}
+	]
+}
