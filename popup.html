@@ -5,14 +5,61 @@
     <title>Fullback+</title>
 <style type="text/css">
 body {
-	height: 100%;
+	height: auto;
 	width: 350px;
+}
+
+#notifications {
+	width: 350px;
+	height: 200px;
+	overflow: auto;
+}
+
+.notification {
+	background-color: #C5C5C5;
+	border-bottom: 2px solid #A1A1A1;
+	padding: 3px;
+}
+
+.notification:last-child {
+	border-bottom: none;
+}
+
+.notification:hover {
+	background-color: #D6D6D6;
+	cursor: pointer;
+}
+
+.notification .time {
+	float: right;
+	margin-top: -1.2em;
+	margin-right: 0.2em;
+	color: #808080;
+}
+
+#settings {
+	display: none;
 }
 </style>
 </head>
 <body>
+<div id="notifications">
+	<div class="notification">
+		Du har blivit citerad i tråden "Haschhärvan i Forshaga (Karlstad)"<br/>
+		<span class="time">17:32</span>
+	</div>
+	<div class="notification">
+		Du har fått ett nytt PM från "Proton"<br/>
+		<span class="time">17:32</span>
+	</div>
 </div>
+<!--
+	TODO Fixa något fancy sett att ta fram inställningarna
+-->
+<a href="#" id="settingsToggle" style="float: right;">Inställningar</a>
+
 <!-- Inställningar här-->
+<div id="settings">
 <input type="checkbox" id="debugMode"/> Debug<br/>
 <input type="checkbox" id="removeTop"/> Ta bort topp<br/>
 <input type="checkbox" id="floatingTabs"/> Meny-rad följer scroll<br/>
@@ -24,6 +71,7 @@ body {
 <input type="checkbox" id="myPostInThread"/> Visa länk till alla mina inlägg i nuvarande tråd<br/>
 <input type="checkbox" id="showImages"/> Visa bilder<br/>
 <input type="checkbox" id="goToTop"/> Aktivera "Gå till toppen"-länk vid inlägg<br/>
+</div>
 <script src="jquery.js"></script>
 <script src="popup.js"></script>
 </body>
