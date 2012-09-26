@@ -9,3 +9,5 @@ chrome.extension.onRequest.addListener(function(data, sender, sendResponse){
 		console.log(data.id+' = '+data.value);
 	}
 });
+
+// TODO Lägga till funktioner för att kolla efter och lägga till notifikationer

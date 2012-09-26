@@ -1,12 +1,13 @@
 //Här ska Fullbacks funkioner köras för att fixa designen och annat.
 //Kanske också notifikationer men beror på om de ska vara på sidan eller i browseraction popup
 
-var settings, debug, currentPage;
+var settings, debug, currentPage, shortCurrentPage;
 
 chrome.extension.sendRequest({method: "getStatus"}, function(response) {
 	settings = response;
 
 	currentPage = location.pathname;
+	shortCurrentPage = currentPage.substring(0,2);
 
 	//debugMode
 	if(settings.debugMode == 'true') {
@@ -92,8 +93,7 @@ chrome.extension.sendRequest({method: "getStatus"}, function(response) {
 
 	//myPostInThread
 	if(settings.myPostInThread == 'true'){
-		currentPage = currentPage.substring(0,2);
-		if((currentPage == "/p") || (currentPage == "/t")) {
+		if((shortCurrentPage == "/p") || (shortCurrentPage == "/t")) {
 			var threadId = $('.navbar strong a:first').attr('href').substring(2);
 			var profileId = $('.top-menu-sub li:nth-child(2) a').attr('href').substring(2);
 			if(debug) {
@@ -150,13 +150,11 @@ chrome.extension.sendRequest({method: "getStatus"}, function(response) {
 		});
 	}
 
-	//TODO goToTop - Dublicate
 	if(settings.goToTop == 'true'){
 		if(debug)
 			console.log('Aktivera "Gå till toppen"-länk vid inlägg');
-		//DUBLICATE 158 - 95
-		currentPage = currentPage.substring(0,2);
-		if(currentPage == "/t") {
+		
+		if(shortCurrentPage == "/t") {
 			$('table[id^="post"]').hover(function(){
 				//TODO goToTop - Bättre design
 				$('<a href="#top" class="topLink" style="position: absolute; margin-top: -17px; margin-left: 4px;">Gå till toppen</a>').hide().appendTo(this).delay(100).fadeIn();
