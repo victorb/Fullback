@@ -10,7 +10,7 @@ function toggleThreadlist(childNumber) {
 	$('#threadslist:nth-child(' + childNumber + ')').toggle();
 }
 
-//Fixlinks
+//TODO Fixlinks - https://www.flashback.org/p39560803#p39560803 tar inte bort länkar
 function fixTheLinks() {
 	'use strict';
 	$('a').each(function (index) {
