@@ -3,7 +3,8 @@
 //Kanske också notif ikationer men beror på om de ska vara på sidan eller i browseraction popup
 
 var settings, debug, currentPage, shortCurrentPage, hetaAmnenModVar, $this,
-	id, idIndex, threadId, profileId, aLink, fixLinksPost, maxWidth;
+	id, idIndex, threadId, profileId, aLink, fixLinksPost, maxWidth, currentThread,
+	children;
 
 function toggleThreadlist(childNumber) {
 	'use strict';
@@ -196,4 +197,59 @@ chrome.extension.sendRequest({method: "getStatus"}, function (response) {
 			});
 		}
 	}
-});
+
+	if (settings.highlight === 'true') {
+		if (debug) {
+			console.log('Highlight aktiverat');
+		}
+		if (currentPage === "/nya-amnen") {
+
+			$('#site-main').prepend('<div id="highlightSettings"></div>');
+
+			var searchWords = { 'drog': 'lightyellow',
+								'flashback': 'IndianRed',
+								'brott': 'LawnGreen'
+							};
+			var currentWord
+			$.each(searchWords, function(word, color) {
+				currentWord = '<div style="background-color: ' + color + '; border-radius: 10px; float: left; font-size: 1.3em; margin: 5px; padding: 5px; ">' + word + '</div>';
+				$('#highlightSettings').append(currentWord);
+			});
+			
+			$('#highlightSettings').append('<div id="highlightAdd" style="background-color: lightgrey; float: left; font-size: 1.3em; margin: 5px; padding: 5px; ">+</div>');
+
+			$('#highlightAdd').hover( function() {
+				$(this).css('cursor', 'pointer');
+			}, function() {
+				$(this).css('cursor', 'normal');
+			});
+
+			$('#highlightAdd').click( function() {
+				$('#highlightSettings').append('<div id="">Namn som du vill söka på | Färg</div>');
+			});
+
+			$('td[id^="td_title_"]').each(function(index) {
+				$this = $(this);
+				children = $this.parent().children('td');
+
+				currentThread = $this.text().toLowerCase();
+
+				if( currentThread.indexOf( "drog" ) !== -1 ) {
+					//console.log(currentThread);
+					children.css('background-color','lightyellow');
+					$this.append('<span style="float: right;"><b>drog</b></span>');
+				}
+				if( currentThread.indexOf( "flashback" ) !== -1 ) {
+					//console.log(currentThread);
+					children.css('background-color','IndianRed');
+					$this.append('<span style="float: right;"><b>flashback</b></span>');
+				}
+				if( currentThread.indexOf( "brott" ) !== -1 ) {
+					//console.log(currentThread);
+					children.css('background-color','LawnGreen');
+					$this.append('<span style="float: right;"><b>brott</b></span>');
+				}
+			}); // END OF $('td[id^="td_title_"]')...
+		} // END OF if (currentPage...
+	} // END OF if (settings.highlight...
+}); // END OF chrome.extension.sendRequest...
