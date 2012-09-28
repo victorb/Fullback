@@ -3,7 +3,8 @@
 //Kanske också notif ikationer men beror på om de ska vara på sidan eller i browseraction popup
 
 var settings, debug, currentPage, shortCurrentPage, hetaAmnenModVar, $this,
-	id, idIndex, threadId, profileId, aLink, fixLinksPost, maxWidth;
+	id, idIndex, threadId, profileId, aLink, fixLinksPost, maxWidth, currentThread,
+	children;
 
 function toggleThreadlist(childNumber) {
 	'use strict';
@@ -54,7 +55,19 @@ function freeze_gif(i) {
 	}
 }
 
-chrome.extension.sendRequest({method: "getStatus"}, function (response) {
+function showHighlightPopup() {
+	$('#highlightSettings').append('<div id="highlightPopup">Ord: <input type="textbox" id="highlightWord" value="Sökord"/> Färg: <input type="textbox" id="highlightColor" value="#000000"/> <input type="button" value="Spara" id="highlightSave"></div>');
+}
+
+function addHighlight(highlightWord, highlightColor) {
+	chrome.extension.sendRequest({method: "addHighlight", word: highlightWord, color: highlightColor});
+}
+
+function removeHighlight(highlightWord) {
+	chrome.extension.sendRequest({method: "removeHighlight", word: highlightWord});
+}
+
+chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 	'use strict';
 	settings = response;
 
@@ -196,4 +209,83 @@ chrome.extension.sendRequest({method: "getStatus"}, function (response) {
 			});
 		}
 	}
-});
+
+	if (settings.highlight === 'true') {
+		if (debug) {
+			console.log('Highlight aktiverat');
+		}
+		if (currentPage === "/nya-amnen" || currentPage === "/nya-inlagg") {
+
+			$('#site-main').prepend('Klicka på + för att lägga till ett ord och klicka på ordet för att ta bort. <a href="http://www.computerhope.com/htmcolor.htm#03" target="_blank">Lista med alla färger du kan använda</a><br/><div id="highlightSettings"></div>');
+
+			var searchWords = JSON.parse(settings['highlightWords']);
+			//searchWords.push({'word': 'varför','color':'red'});
+
+			var currentWord;
+
+			$.each(searchWords, function (i, object) {
+				currentWord = '<div class="word" style="background-color: ' + object.color + '; border-radius: 10px; float: left; font-size: 1.3em; margin: 5px; padding: 5px; ">' + object.word + '</div>';
+				$('#highlightSettings').append(currentWord);
+			});
+
+			$('#highlightSettings').append('<div id="highlightAdd" style="background-color: lightgrey; float: left; font-size: 1.3em; margin: 5px; padding: 5px; ">+</div>');
+
+			$('#highlightAdd').hover(function () {
+				$(this).css('cursor', 'pointer');
+			}, function () {
+				$(this).css('cursor', 'normal');
+			});
+
+			$('#highlightAdd').click(function () {
+				if($('#highlightSave').length) {
+					$('#highlightPopup').remove();
+				} else {
+					showHighlightPopup();
+				}
+			});
+
+			$('#highlightSave').live('click', function () {
+				var word = $('#highlightWord').val();
+				var color = $('#highlightColor').val();
+				addHighlight(word, color);
+				location.reload();
+			});
+
+			$('.word').live('click', function () {
+				var word = $(this).text();
+				removeHighlight(word);
+				location.reload();
+			});
+
+			$('td[id^="td_title_"]').each(function(index) {
+				$this = $(this);
+				children = $this.parent().children('td');
+
+				currentThread = $this.text().toLowerCase();
+
+				$.each(searchWords, function (i, object) {
+					if( currentThread.indexOf( object.word.toLowerCase() ) !== -1 ) {
+						children.css('background-color', object.color);
+						$this.append('<span style="float: right; margin-left: 10px;"><b>' + object.word + '</b></span>');
+					}
+				});
+
+				// if( currentThread.indexOf( "drog" ) !== -1 ) {
+				// 	//console.log(currentThread);
+				// 	children.css('background-color','lightyellow');
+				// 	$this.append('<span style="float: right;"><b>drog</b></span>');
+				// }
+				// if( currentThread.indexOf( "flashback" ) !== -1 ) {
+				// 	//console.log(currentThread);
+				// 	children.css('background-color','IndianRed');
+				// 	$this.append('<span style="float: right;"><b>flashback</b></span>');
+				// }
+				// if( currentThread.indexOf( "brott" ) !== -1 ) {
+				// 	//console.log(currentThread);
+				// 	children.css('background-color','LawnGreen');
+				// 	$this.append('<span style="float: right;"><b>brott</b></span>');
+				// }
+			}); // END OF $('td[id^="td_title_"]')...
+		} // END OF if (currentPage...
+	} // END OF if (settings.highlight...
+}); // END OF chrome.extension.sendRequest...
