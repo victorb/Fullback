@@ -39,3 +39,9 @@ $('#settingsToggle').click(function () {
 	'use strict';
 	$('#settings').toggle();
 });
+
+$('#reload').click(function () {
+	'use strict';
+	chrome.tabs.reload();
+	window.close();
+});
