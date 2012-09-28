@@ -32,7 +32,7 @@ $('input').change(function () {
 			'value': 'false'
 		};
 	}
-	chrome.extension.sendRequest(data);
+	chrome.extension.sendRequest({method: "saveSetting", data: data});
 });
 
 $('#settingsToggle').click(function () {
