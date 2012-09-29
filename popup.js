@@ -3,6 +3,12 @@
 var id, checked, idName, value, $this;
 var data = [];
 
+function populateNotifications() {
+	chrome.extension.sendRequest({method: "getNotifications"}, function (response) {
+		var notifications = [];
+	});
+}
+
 $('input').each(function (index) {
 	'use strict';
 	$this = $(this);
@@ -45,3 +51,7 @@ $('#reload').click(function () {
 	chrome.tabs.reload();
 	window.close();
 });
+
+//$('#notifications').empty();
+populateNotifications();
+//$('#notifications').prepend('<div class="notification">Du har blivit citerad i tråden "Negerkukar"<br/><span class="time">17:32</span></div>');

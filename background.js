@@ -38,6 +38,9 @@ chrome.extension.onRequest.addListener(function (data, sender, sendResponse) {
 		localStorage.setItem(data.data.id, data.data.value);
 		console.log(data.data.id + ' = ' + data.data.value);
 	}
+	if (data.method === "getNotifications") {
+		sendResponse(localStorage.getItem('notifications'));
+	}
 });
 
 // TODO Lägga till funktioner för att kolla efter och lägga till notifikationer
