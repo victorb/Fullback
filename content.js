@@ -177,7 +177,7 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 	}
 
 
-	//TODO showImages - Fixa så bilder inte syns i quote
+	//showImages
 	if (settings.showImages === 'true') {
 		if (!fixLinksPost) {
 			fixTheLinks();
