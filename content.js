@@ -1,10 +1,11 @@
-/*global chrome: false, localStorage: false, console: false, location: false, $: false,*/
+/*jslint regexp: true, passfail: false */
+/*global chrome: false, localStorage: false, console: false, location: false, $: false, document: false*/
 //Här ska Fullbacks funkioner köras för att fixa designen och annat.
 //Kanske också notif ikationer men beror på om de ska vara på sidan eller i browseraction popup
 
 var settings, debug, currentPage, shortCurrentPage, hetaAmnenModVar, $this,
 	id, idIndex, threadId, profileId, aLink, fixLinksPost, maxWidth, currentThread,
-	children;
+	children, searchWords, currentWord, word, color;
 
 function toggleThreadlist(childNumber) {
 	'use strict';
@@ -35,35 +36,37 @@ function fixTheLinks() {
 
 function is_gif_image(i) {
 	'use strict';
-	return /^(?!data:).*\.jpg/i.test(i.src);
+	return (/^(?!data:).*\.jpg/i).test(i.src);
 }
 
 function freeze_gif(i) {
-	var c = document.createElement('canvas');
-	var w = c.width = i.width;
-	var h = c.height = i.height;
+	'use strict';
+	var c = document.createElement('canvas'), w = c.width = i.width, h = c.height = i.height, j = 0, a;
 	c.getContext('2d').drawImage(i, 0, 0, w, h);
 
 	try {
 		i.src = c.toDataURL("image/gif"); // if possible, retain all css aspects
-	} catch(e) { // cross-domain -- mimic original with all its tag attributes
-	
-	for (var j = 0, a; a = i.attributes[j]; j++)
-		c.setAttribute(a.name, a.value);
-	
-	i.parentNode.replaceChild(c, i);
+	} catch (e) { // cross-domain -- mimic original with all its tag attributes
+		//TODO content.js - JSLint | Expected a conditional expression and instead saw an assignment.
+		for (a; a = i.attributes[j]; j += 1) {
+			c.setAttribute(a.name, a.value);
+		}
+		i.parentNode.replaceChild(c, i);
 	}
 }
 
 function showHighlightPopup() {
+	'use strict';
 	$('#highlightSettings').append('<div id="highlightPopup">Ord: <input type="textbox" id="highlightWord" value="Sökord"/> Färg: <input type="textbox" id="highlightColor" value="#000000"/> <input type="button" value="Spara" id="highlightSave"></div>');
 }
 
 function addHighlight(highlightWord, highlightColor) {
+	'use strict';
 	chrome.extension.sendRequest({method: "addHighlight", word: highlightWord, color: highlightColor});
 }
 
 function removeHighlight(highlightWord) {
+	'use strict';
 	chrome.extension.sendRequest({method: "removeHighlight", word: highlightWord});
 }
 
@@ -87,8 +90,6 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 		}
 		$('#top').remove();
 	}
-
-	//TODO Highlight - Lägg till Flashback Highlight här, skapa även inställningars
 
 	//TODO content.js - göra om if-satser till funktioner istället
 
@@ -210,6 +211,7 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 		}
 	}
 
+	//highlight
 	if (settings.highlight === 'true') {
 		if (debug) {
 			console.log('Highlight aktiverat');
@@ -218,10 +220,7 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 
 			$('#site-main').prepend('Klicka på + för att lägga till ett ord och klicka på ordet för att ta bort. <a href="http://www.computerhope.com/htmcolor.htm#03" target="_blank">Lista med alla färger du kan använda</a><br/><div id="highlightSettings"></div>');
 
-			var searchWords = JSON.parse(settings['highlightWords']);
-			//searchWords.push({'word': 'varför','color':'red'});
-
-			var currentWord;
+			searchWords = JSON.parse(settings.highlightWords);
 
 			$.each(searchWords, function (i, object) {
 				currentWord = '<div class="word" style="background-color: ' + object.color + '; border-radius: 10px; float: left; font-size: 1.3em; margin: 5px; padding: 5px; ">' + object.word + '</div>';
@@ -237,7 +236,7 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 			});
 
 			$('#highlightAdd').click(function () {
-				if($('#highlightSave').length) {
+				if ($('#highlightSave').length) {
 					$('#highlightPopup').remove();
 				} else {
 					showHighlightPopup();
@@ -245,46 +244,30 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 			});
 
 			$('#highlightSave').live('click', function () {
-				var word = $('#highlightWord').val();
-				var color = $('#highlightColor').val();
+				word = $('#highlightWord').val();
+				color = $('#highlightColor').val();
 				addHighlight(word, color);
 				location.reload();
 			});
 
 			$('.word').live('click', function () {
-				var word = $(this).text();
+				word = $(this).text();
 				removeHighlight(word);
 				location.reload();
 			});
 
-			$('td[id^="td_title_"]').each(function(index) {
+			$('td[id^="td_title_"]').each(function (index) {
 				$this = $(this);
 				children = $this.parent().children('td');
 
 				currentThread = $this.text().toLowerCase();
 
 				$.each(searchWords, function (i, object) {
-					if( currentThread.indexOf( object.word.toLowerCase() ) !== -1 ) {
+					if (currentThread.indexOf(object.word.toLowerCase()) !== -1) {
 						children.css('background-color', object.color);
 						$this.append('<span style="float: right; margin-left: 10px;"><b>' + object.word + '</b></span>');
 					}
 				});
-
-				// if( currentThread.indexOf( "drog" ) !== -1 ) {
-				// 	//console.log(currentThread);
-				// 	children.css('background-color','lightyellow');
-				// 	$this.append('<span style="float: right;"><b>drog</b></span>');
-				// }
-				// if( currentThread.indexOf( "flashback" ) !== -1 ) {
-				// 	//console.log(currentThread);
-				// 	children.css('background-color','IndianRed');
-				// 	$this.append('<span style="float: right;"><b>flashback</b></span>');
-				// }
-				// if( currentThread.indexOf( "brott" ) !== -1 ) {
-				// 	//console.log(currentThread);
-				// 	children.css('background-color','LawnGreen');
-				// 	$this.append('<span style="float: right;"><b>brott</b></span>');
-				// }
 			}); // END OF $('td[id^="td_title_"]')...
 		} // END OF if (currentPage...
 	} // END OF if (settings.highlight...

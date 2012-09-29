@@ -1,4 +1,4 @@
-/*global $: false, chrome: false, console: false,*/
+/*global $: false, chrome: false, console: false, window: false*/
 //Här är Javascript till popup.html
 var id, checked, idName, value, $this;
 var data = [];
