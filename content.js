@@ -190,8 +190,12 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 		maxWidth = $('.post-right').width() - 20;
 		$('a[href$="jpg"], a[href$="jpeg"], a[href$="png"], a[href$="gif"], a[href$="JPG"]').each(function () {
 			$this = $(this);
-			if ($this.css('color') !== 'rgb(102, 102, 102)') {
-				$this.html('<br/><a href="' + $this.attr('href') + '" target="_blank"><img src="' + $this.attr('href') + '" style="max-width: ' + maxWidth + 'px;"/></a>');
+			if (!$this.parents('td').hasClass('post-quote')) {
+				if ($this.css('color') !== 'rgb(102, 102, 102)') {
+					$this.html('<br/><a href="' + $this.attr('href') + '" target="_blank"><img src="' + $this.attr('href') + '" style="max-width: ' + maxWidth + 'px;"/></a>');
+				}
+			} else {
+				$this.html('<a href="' + $this.attr('href') + '">[BILD]</a>');
 			}
 		});
 	}
