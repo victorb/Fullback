@@ -37,7 +37,7 @@ $('input').change(function () {
 
 $('#settingsToggle').click(function () {
 	'use strict';
-	$('#settings').toggle();
+	$('#settings').fadeToggle(10);
 });
 
 $('#reload').click(function () {
