@@ -31,6 +31,10 @@ Visar bilder direkt i trådarna.
 Visar en länk för att komma längst upp på sidan igen.
 #####Nya ämnen highlight
 Tillåter dig att ange sökord för Nya Ämnen och Nya Inlägg. Om någon tråd innehar sökordet så blir tråden markerad.
+#####Snabba länkar
+När man skriver inlägg finns följande "genvägar":
+* (@test) skapar en länk till användaren "test"
+* (#anarkistiska kokboken) skapar en länk till söksidan för "anarkistiska kokboken".
 
 #Roadmap
 ##Framtiden
