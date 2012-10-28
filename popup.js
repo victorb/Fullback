@@ -5,6 +5,7 @@ var data = [];
 
 function populateNotifications() {
 	chrome.extension.sendRequest({method: "getNotifications"}, function (response) {
+		'use strict';
 		var notifications = [];
 	});
 }

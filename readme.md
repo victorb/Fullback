@@ -1,7 +1,7 @@
 #Introduktion
-Fullback är ett tillägg för Google Chrome som är menat att hjälpa användarvänligheten på Flashback. Detta är senaste versionen av Fullback. 
+Fullback är ett tillägg för Google Chrome som är menat att hjälpa användarvänligheten på Flashback. Detta är senaste versionen av Fullback.
 
-Om du tycker om det, sprid det eller hjälp till med utvecklingen.
+Om du tycker om tillägget, sprid det eller hjälp till med utvecklingen.
 
 #Manual
 
@@ -37,3 +37,4 @@ Tillåter dig att ange sökord för Nya Ämnen och Nya Inlägg. Om någon tråd 
 ##Todo
 * Faktiskt integrera allt (Fullback och Highlight integrerat, Notifications kvar)
 * Skicka nytt PM via popup
+* Fixa Stanna GIF
