@@ -280,8 +280,8 @@ chrome.extension.sendRequest({method: "getSettings"}, function (response) {
 		$('#vB_Editor_001_textarea').keyup(function(){
 			'use strict';
 			var messageText = $('#vB_Editor_001_textarea').val();
-			messageText = messageText.replace(/\([@]([A-Za-z0-9 ]+)\) +/g, "[URL=\"https://www.flashback.org/sok/user:$1\"]$1[/URL]");
-			messageText = messageText.replace(/\([#]([A-Za-z0-9 ]+)\) +/g, "[URL=\"https://www.flashback.org/sok/$1\"]$1[/URL]");
+			messageText = messageText.replace(/\([@]([A-Za-z0-9åÅäÄöÖ ]+)\) +/g, "[URL=\"https://www.flashback.org/sok/user:$1\"]$1[/URL] ");
+			messageText = messageText.replace(/\([#]([A-Za-z0-9åÅäÄöÖ ]+)\) +/g, "[URL=\"https://www.flashback.org/sok/$1\"]$1[/URL] ");
 			$('#vB_Editor_001_textarea').val(messageText);
 		});
 	} //END OF if (settings.fastLinks...
